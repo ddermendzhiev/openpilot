@@ -17,6 +17,7 @@ master branch. The latest build was done on {{time.Now.Format "January 02, 2006"
 * CC long, aka "[redneck ACC](https://www.youtube.com/watch?v=41wZ1EAmf94)" to automatically adjust nonadaptive cruise
 control
 * Neural network steering control, credit twilsonco
+* Always on lateral (toggleable), credit pfieferj
 
 ## Supported vehicles list
 OPGM is capable of supportng vehicles on the Global A architecture that have factory LKAS. Currently supported vehicles
@@ -89,3 +90,4 @@ Feel free to open a pull request against the `dev` branch.
 * twilsonco
 * k1mu
 * kliu
+* pfeiferj
