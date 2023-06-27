@@ -68,7 +68,9 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalTuning.kiBP = [0.]
 
     if candidate in CAMERA_ACC_CAR:
-      ret.experimentalLongitudinalAvailable = not ret.enableGasInterceptor
+      # FIXME: toggle b/w CC long and stock CC
+      # ret.experimentalLongitudinalAvailable = not ret.enableGasInterceptor
+      ret.experimentalLongitudinalAvailable = candidate not in CC_ONLY_CAR
       ret.networkLocation = NetworkLocation.fwdCamera
       ret.radarUnavailable = True  # no radar
       ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_HW_CAM
@@ -76,6 +78,8 @@ class CarInterface(CarInterfaceBase):
         ret.pcmCruise = False
         ret.minEnableSpeed = 24 * CV.MPH_TO_MS
         ret.minSteerSpeed = 7 * CV.MPH_TO_MS
+        ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_CC_LONG
+        ret.openpilotLongitudinalControl = True
       else:
         ret.pcmCruise = True
         ret.minEnableSpeed = 5 * CV.KPH_TO_MS
@@ -92,20 +96,14 @@ class CarInterface(CarInterfaceBase):
       if experimental_long:
         ret.pcmCruise = False
         ret.openpilotLongitudinalControl = True
-        if candidate in CC_ONLY_CAR:
-          ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_CC_LONG
-        else:
-          ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_HW_CAM_LONG
+        ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_HW_CAM_LONG
 
     else:  # ASCM, OBD-II harness
+      ret.openpilotLongitudinalControl = True
       if candidate in CC_ONLY_CAR:
-        ret.experimentalLongitudinalAvailable = True
         ret.minEnableSpeed = 24 * CV.MPH_TO_MS
-        if experimental_long:
-          ret.openpilotLongitudinalControl = True
-          ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_CC_LONG
+        ret.safetyConfigs[0].safetyParam |= Panda.FLAG_GM_CC_LONG
       else:
-        ret.openpilotLongitudinalControl = True
         ret.minEnableSpeed = 18 * CV.MPH_TO_MS
       ret.networkLocation = NetworkLocation.gateway
       ret.radarUnavailable = RADAR_HEADER_MSG not in fingerprint[CanBus.OBSTACLE] and not docs
@@ -263,6 +261,7 @@ class CarInterface(CarInterfaceBase):
       ret.minEnableSpeed = -1
       ret.pcmCruise = False
       ret.openpilotLongitudinalControl = True
+      ret.experimentalLongitudinalAvailable = False
       # Note: Low speed, stop and go not tested. Should be fairly smooth on highway
       ret.longitudinalTuning.kpV = [0.35, 0.5]
       ret.longitudinalTuning.kiBP = [0., 35.0]
