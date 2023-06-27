@@ -142,6 +142,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [0.75, .9, 0.8]
       ret.longitudinalTuning.kiBP = [5., 15., 35.]
       ret.longitudinalTuning.kiV = [0.08, 0.13, 0.13]
+      ret.nnffFingerprint = CAR.VOLT
 
     elif candidate == CAR.MALIBU:
       ret.mass = 1496. + STD_CARGO_KG
@@ -209,6 +210,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 1.0
       ret.steerActuatorDelay = 0.2
+      ret.nnffFingerprint = CAR.BOLT_EUV
       CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     elif candidate == CAR.SILVERADO:
@@ -224,6 +226,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.72
       ret.steerRatio = 14.4
       ret.centerToFront = ret.wheelbase * 0.4
+      ret.nnffFingerprint = CAR.EQUINOX
       CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     elif candidate == CAR.TRAILBLAZER:
@@ -241,6 +244,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 17.3 # COPIED FROM SILVERADO
       ret.centerToFront = ret.wheelbase * 0.49
       ret.steerActuatorDelay = 0.075
+      ret.nnffFingerprint = CAR.SUBURBAN
       CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
 
     elif candidate == CAR.YUKON_CC:
