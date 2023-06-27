@@ -240,7 +240,7 @@ static int gm_tx_hook(CANPacket_t *to_send) {
     }
     // For standard CC, allow spamming of SET / RESUME
     if (gm_cc_long) {
-      allowed_btn |= cruise_engaged_prev && (gm_hw == GM_CAM) && (button == GM_BTN_SET || button == GM_BTN_RESUME || button == GM_BTN_UNPRESS);
+      allowed_btn |= cruise_engaged_prev && (gm_hw == GM_CAM) && (button == GM_BTN_SET || button == GM_BTN_RESUME || button == GM_BTN_UNPRESS || button == GM_BTN_CANCEL);
     }
     // TODO: With a Pedal, CC needs to be canceled
 
