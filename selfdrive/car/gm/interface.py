@@ -319,7 +319,8 @@ class CarInterface(CarInterfaceBase):
       if ret.vEgo < 24. * CV.MPH_TO_MS:
         events.add(EventName.speedTooLow)
 
-    if self.CP.enableGasInterceptor and self.CP.transmissionType == TransmissionType.direct and not self.CS.single_pedal_mode:
+    if self.CP.enableGasInterceptor and self.CP.transmissionType == TransmissionType.direct and \
+      not (self.CS.single_pedal_mode or self.CS.out.gearShifter in [GearShifter.brake, GearShifter.park, GearShifter.reverse]):
       events.add(EventName.pedalInterceptorNoBrake)
 
     ret.events = events.to_msg()
